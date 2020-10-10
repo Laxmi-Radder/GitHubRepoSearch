@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d %-5p [%-40.40C{1.}] [%-10t] %m %n" />
+        </Console>
+ 
+        <RollingFile name="RollingFile"
+            fileName="./logs/repo-search.log"
+            filePattern="./logs/$${date:yyyy-MM}/repo-search-%d{-dd-MMMM-yyyy}-%i.log.gz">
+            <PatternLayout pattern="%d %-5p [%-40.40C{1.}] [%-10t] %m %n" />
+            <Policies>
+                <!-- roll over on startup, daily and when the file reaches 10 MegaBytes -->
+                <OnStartupTriggeringPolicy />
+                <SizeBasedTriggeringPolicy
+                    size="10 MB" />
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+        </RollingFile>
+    </Appenders>
+ 
+    <Loggers>
+        <!-- everything at Debug level -->
+        <Root level="INFO">
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="RollingFile" />
+        </Root>
+ 
+        <Logger name="com.informatica.github" level="INFO">
+           <AppenderRef ref="RollingFile" />
+        </Logger>
+    </Loggers>
+ 
+</Configuration>
